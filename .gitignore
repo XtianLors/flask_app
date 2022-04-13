@@ -1,2 +1,4 @@
 #binary files from flask
 /__pycache__/
+
+*.vs
