@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+from markupsafe import escape
 
 app = Flask(__name__) #Instance of Flask class -> File localizer: WSGI application
 '''convenient shortcut for creating an instance of Flask. Searches for templates and satic files.'''
@@ -9,10 +10,12 @@ app = Flask(__name__) #Instance of Flask class -> File localizer: WSGI applicati
 @app.route('/')#route is the association between a URL and the function that handles. 
 def index():
 	return '<h1>Bad Request</h1>', 400
+#If another program is already using port 5000, you’ll see OSError: [Errno 98] or OSError: [WinError 10013] when the server tries to start.
 
-@app.route('x')
+#Adding protection with escape()
+@app.route('/user/<username>')
 def user(username):
-	return '<h1>Hello, {}!</h1>'.format(username)
+	return '<h1>Hello, {}!</h1>'.format(escape(username))#using escape to avoid injection attacks
 
 #view: A view function is the code you write to respond to requests to your application.
 #Decorator: Because each view in Flask is a function, decorators can be used to inject additional functionality to one or more functions.
